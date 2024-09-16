@@ -1,2 +1,2 @@
 # awan_afrika
-member app for managing their portfolios
+frontend for the resource hub containing reseach finding from different people
