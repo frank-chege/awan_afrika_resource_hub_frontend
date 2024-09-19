@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { configureRequest } from "../common/utils";
 import { useGlobalContext } from "./GlobalContext";
 
-function Register() {
+export default function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -34,18 +34,11 @@ function Register() {
       toast.error("Passwords do not match!");
       return;
     }
-
-    setWaitMessage(true);
-    const role = () => {
-      if (loginRole !== "admin") {
-        return "viewer";
-      }
-      return regRole;
-    };
+    const role = loginRole !== "admin" ? "viewer" : regRole;
     const payload = { firstName, lastName, email, pwd, role };
 
     request
-      .post(`/auth/register/${role}`, JSON.stringify(payload))
+      .post("/auth/register", payload)
       .then((res) => {
         navigate("/login");
         toast.success(res.data.message);
@@ -61,6 +54,7 @@ function Register() {
         } else {
           toast.error("An error occured. PLease try again");
         }
+        setWaitMessage(false);
       });
   };
 
@@ -154,4 +148,3 @@ function Register() {
     </form>
   );
 }
-export default Register;
