@@ -8,18 +8,21 @@ import AuthorHome from "./AuthorHome";
 export default function AuthorLayout({ children }) {
   const navigate = useNavigate();
 
-  //check status status
-  const authStatus = async () => {
-    await checkAuthStatus();
-  };
-  if (!authStatus) {
-    toast("Permission denied! Please login to continue");
-    navigate("/login");
-  }
+  //check auth status
+  useEffect(() => {
+    const authStatus = async () => {
+      await checkAuthStatus();
+    };
+    if (!authStatus) {
+      toast("Permission denied! Please login to continue");
+      navigate("/login");
+    }
+    authStatus();
+  }, [navigate]);
 
   return (
     <>
-      {...children}
+      {children}
       <AuthorNavbar />
       <Routes>
         <Route path="/home" element={<AuthorHome />} />

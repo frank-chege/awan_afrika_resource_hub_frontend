@@ -4,9 +4,10 @@ import { useGlobalContext } from "./GlobalContext";
 
 export async function checkAuthStatus() {
   const request = configureRequest();
-  const token = getCookieValue(csrf_token);
+  const token = getCookieValue("csrf_token");
   const { role } = useGlobalContext();
   const payload = JSON.stringify({ role });
+
   try {
     const response = await request.get("/auth/auth_status", payload, {
       headers: {
