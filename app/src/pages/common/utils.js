@@ -1,12 +1,13 @@
 import axios from "axios";
 
-//extract value from cookie
+// Extract value from a specific cookie by name
 export const getCookieValue = (name) => {
   const cookieValues = `; ${document.cookie}`;
   const parts = cookieValues.split(`; ${name}=`);
 
   if (parts.length === 2) {
-    const value = parts.pop().split(";").shift();
+    // Extract the value and handle the case where additional cookie data follows
+    const value = parts.pop().split(";").shift().trim();
     return value;
   }
   return null;
@@ -19,6 +20,7 @@ export function configureRequest() {
     headers: {
       "Content-Type": "application/json",
     },
+    timeout: 5000,
   });
   return axiosRequest;
 }

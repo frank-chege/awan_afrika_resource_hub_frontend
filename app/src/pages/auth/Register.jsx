@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { configureRequest } from "../common/utils";
-import { useGlobalContext } from "./GlobalContext";
+import { useGlobalContext } from "./contextProvider";
 
 export default function Register() {
   const [firstName, setFirstName] = useState("");
@@ -51,6 +51,9 @@ export default function Register() {
           error.response.data.error
         ) {
           toast.error(error.response.data.error);
+          if (error.response.status === 409) {
+            navigate("/login");
+          }
         } else {
           toast.error("An error occured. PLease try again");
         }

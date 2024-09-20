@@ -1,30 +1,21 @@
 //viewer layout
 
 import Logout from "../../common/Logout";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import { checkAuthStatus } from "../../auth/checkAuthStatus";
-import { toast } from "react-toastify";
+import { Routes, Route } from "react-router-dom";
+import useCheckAuthStatus from "../../auth/authCheck";
 import ViewerNavBar from "./ViewerNavBar";
 import ViewerHome from "./ViewerHome";
 
 export default function ViewerLayout({ children }) {
-  const navigate = useNavigate();
+  const { checkingAuthStatus } = useCheckAuthStatus();
 
-  //check auth status
-  useEffect(() => {
-    const authStatus = async () => {
-      await checkAuthStatus();
-    };
-    if (!authStatus) {
-      toast("Permission denied! Please login to continue");
-      navigate("/login");
-    }
-    authStatus();
-  }, [navigate]);
+  if (checkingAuthStatus) {
+    return <>Checking your authentication status. Please wait...</>;
+  }
 
   return (
     <>
-      {...children}
+      {children}
       <ViewerNavBar />
       <Routes>
         <Route path="/home" element={<ViewerHome />} />

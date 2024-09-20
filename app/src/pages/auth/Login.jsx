@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useGlobalContext } from "./GlobalContext";
+import { useGlobalContext } from "./contextProvider";
 import { configureRequest } from "../common/utils";
 
 function Login() {
@@ -16,23 +16,23 @@ function Login() {
   const request = configureRequest();
   //create payload
   const payload = { email, pwd };
-
   //handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
     setWaitMessage(true);
     request
-      .post("/auth/login/", JSON.stringify(payload))
+      .post("/auth/login", payload)
       .then((res) => {
-        //set the role
         const role = res.data.role;
         setLoginRole(role);
         navigate(`/${role}/home`);
         toast.success(res.data.message);
       })
       .catch((error) => {
-        if (
+        if (error.code === "ECONNABORTED") {
+          toast.error("Request timeout. Please try again.");
+        } else if (
           error &&
           error.response &&
           error.response.data &&

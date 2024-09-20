@@ -1,25 +1,15 @@
 import Logout from "../../common/Logout";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import { checkAuthStatus } from "../../auth/checkAuthStatus";
-import { toast } from "react-toastify";
+import { Routes, Route } from "react-router-dom";
+import useCheckAuthStatus from "../../auth/authCheck";
 import AdminNavbar from "./AdminNavBar";
 import AdminHome from "./AdminHome";
-import { useEffect } from "react";
 
 export default function AdminLayout({ children }) {
-  const navigate = useNavigate();
+  const { checkingAuthStatus } = useCheckAuthStatus();
 
-  //check auth status
-  useEffect(() => {
-    const authStatus = async () => {
-      await checkAuthStatus();
-    };
-    if (!authStatus) {
-      toast("Permission denied! Please login to continue");
-      navigate("/login");
-    }
-    authStatus();
-  }, [navigate]);
+  if (checkingAuthStatus) {
+    return <div>Checking your authentication status. Please wait...</div>;
+  }
 
   return (
     <>

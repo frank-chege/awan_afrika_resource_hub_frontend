@@ -1,17 +1,27 @@
-//logout and clear auth tokens
 import { useNavigate } from "react-router-dom";
-import { useGlobalContext } from "../auth/GlobalContext";
+import { useGlobalContext } from "../auth/contextProvider";
 import { useEffect } from "react";
 import { configureRequest } from "./utils";
+import { toast } from "react-toastify";
 
 export default function Logout() {
-  const { role, setRole } = useGlobalContext();
+  const { setLoginRole } = useGlobalContext();
   const navigate = useNavigate();
   const request = configureRequest();
-  //set role to public
-  setRole("public");
+
   useEffect(() => {
-    setRole("public");
-    navigate("/");
-  }, [authStatus, role]);
+    const logout = async () => {
+      request
+        .post("/auth/logout")
+        .then((res) => {
+          toast.success(res.data.message);
+          setLoginRole("");
+          navigate("/");
+        })
+        .catch((error) => {
+          toast.error("Logout failed");
+        });
+    };
+    logout();
+  }, [role, navigate]);
 }
