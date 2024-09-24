@@ -55,6 +55,7 @@ function Login() {
           <input
             className="form-control"
             type="email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -66,6 +67,7 @@ function Login() {
           <input
             className="form-control"
             type="password"
+            autoComplete="current-password"
             value={pwd}
             onChange={(e) => setPwd(e.target.value)}
             required
