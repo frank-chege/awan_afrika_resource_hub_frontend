@@ -5,7 +5,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import useCheckAuthStatus from "../../auth/authCheck";
 import ViewerNavBar from "./ViewerNavBar";
 import ViewerHome from "./ViewerHome";
-import Forbidden from "../../errors/Forbidden";
+import Forbidden from "../../errors/Errors";
 
 export default function ViewerLayout({ children }) {
   location = useLocation();
