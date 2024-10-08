@@ -3,12 +3,16 @@ import { Routes, Route } from "react-router-dom";
 import useCheckAuthStatus from "../../auth/authCheck";
 import AdminNavbar from "./AdminNavBar";
 import AdminHome from "./AdminHome";
+import Forbidden from "../../errors/Forbidden";
 
 export default function AdminLayout({ children }) {
-  const { checkingAuthStatus } = useCheckAuthStatus("admin");
+  const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus("admin");
 
   if (checkingAuthStatus) {
     return <div>Checking your authentication status. Please wait...</div>;
+  }
+  if (!checkingAuthStatus && !isAuthenticated) {
+    return <Forbidden />;
   }
 
   return (

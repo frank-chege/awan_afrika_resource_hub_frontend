@@ -3,14 +3,17 @@ import { Routes, Route } from "react-router-dom";
 import useCheckAuthStatus from "../../auth/authCheck";
 import AuthorNavbar from "./AuthorNavBar";
 import AuthorHome from "./AuthorHome";
+import Forbidden from "../../errors/Forbidden";
 
 export default function AuthorLayout({ children }) {
-  const { checkingAuthStatus } = useCheckAuthStatus("author");
+  const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus("author");
 
   if (checkingAuthStatus) {
-    return <>Checking your authentication status. Please wait...</>;
+    return <div>Checking your authentication status. Please wait...</div>;
   }
-
+  if (!checkingAuthStatus && !isAuthenticated) {
+    return <Forbidden />;
+  }
   return (
     <>
       {children}

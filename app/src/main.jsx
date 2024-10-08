@@ -4,9 +4,9 @@ import App from "./App.jsx";
 import GlobalContextProvider from "./pages/auth/contextProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <GlobalContextProvider>
-      <App />
-    </GlobalContextProvider>
-  </React.StrictMode>
+  //<React.StrictMode>
+  <GlobalContextProvider>
+    <App />
+  </GlobalContextProvider>
+  //</React.StrictMode>
 );

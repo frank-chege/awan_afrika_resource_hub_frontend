@@ -11,7 +11,6 @@ import Register from "./pages/auth/Register";
 export default function App() {
   return (
     <Router>
-      <ToastContainer position="top-center" limit={3} />
       <Routes>
         <Route path="/*" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -19,6 +18,7 @@ export default function App() {
         <Route path="/author/*" element={<AuthorLayout />} />
         <Route path="/viewer/*" element={<ViewerLayout />} />
       </Routes>
+      <ToastContainer position="top-center" limit={3} autoClose={3000} />
     </Router>
   );
 }
